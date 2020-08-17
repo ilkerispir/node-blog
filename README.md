@@ -1,1 +1,1 @@
-# node-blog
+# Blog page using node
