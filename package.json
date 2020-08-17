@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/ilkerispir/node-blog/issues"
   },
-  "homepage": "https://github.com/ilkerispir/node-blog#readme"
+  "homepage": "https://github.com/ilkerispir/node-blog#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
