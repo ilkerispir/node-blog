@@ -1,13 +1,12 @@
-'use strict';
-
 const express = require('express');
+const app = express();
+const pretty = require('express-prettify');
 
-// Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
 
-// App
-const app = express();
+app.set('json spaces', 2)
+
 app.get('/', (req, res) => {
   res.status(200).json({
       dev: 'node',
