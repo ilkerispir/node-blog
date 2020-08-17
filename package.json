@@ -1,0 +1,24 @@
+{
+  "name": "ii-blog",
+  "version": "1.0.0",
+  "description": "Node.js blog page",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilkerispir/node-blog.git"
+  },
+  "keywords": [
+    "node",
+    "blog",
+    "page"
+  ],
+  "author": "Ilker Ispir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilkerispir/node-blog/issues"
+  },
+  "homepage": "https://github.com/ilkerispir/node-blog#readme"
+}
