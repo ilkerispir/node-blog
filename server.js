@@ -4,14 +4,13 @@ const app = express();
 const PORT = 8080;
 const HOST = '0.0.0.0';
 
-app.set('json spaces', 2)
+app.use(express.static(__dirname + '/pages/layout'));
+
+app.set('json spaces', 2);
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  res.status(200).json({
-      dev: 'node',
-      message: 'Hello World!'
-  });
+  res.render('index');
 });
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+app.listen(PORT, HOST, () => console.log(`Running on http://${HOST}:${PORT}`));
