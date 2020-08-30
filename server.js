@@ -1,16 +1,69 @@
 const express = require('express');
+const metadata = require('gcp-metadata');
+const {OAuth2Client} = require('google-auth-library');
+
 const app = express();
+const oAuth2Client = new OAuth2Client();
 
-const PORT = 8080;
-const HOST = '0.0.0.0';
+// Cache externally fetched information for future invocations
+let aud;
 
-app.use(express.static(__dirname + '/pages/layout'));
+async function audience() {
+  if (!aud && (await metadata.isAvailable())) {
+    let project_number = await metadata.project('256299007556');
+    let project_id = await metadata.project('ilkerispir');
 
-app.set('json spaces', 2);
-app.set('view engine', 'ejs');
+    aud = '/projects/' + project_number + '/apps/' + project_id;
+  }
+  console.log(aud);
+  return aud;
+}
 
-app.get('/', (req, res) => {
-  res.render('index');
+async function validateAssertion(assertion) {
+  if (!assertion) {
+    return {};
+  }
+
+  // Check that the assertion's audience matches ours
+  const aud = await audience();
+
+  // Fetch the current certificates and verify the signature on the assertion
+  const response = await oAuth2Client.getIapPublicKeys();
+  const ticket = await oAuth2Client.verifySignedJwtWithCertsAsync(
+    assertion,
+    response.pubkeys,
+    aud,
+    ['https://cloud.google.com/iap']
+  );
+  const payload = ticket.getPayload();
+
+  // Return the two relevant pieces of information
+  return {
+    email: payload.email,
+    sub: payload.sub,
+  };
+}
+
+app.get('/', async (req, res) => {
+  const assertion = req.header('X-Goog-IAP-JWT-Assertion');
+  let email = 'None';
+  try {
+    const info = await validateAssertion(assertion);
+    console.log(info);
+    email = info.email;
+  } catch (error) {
+    console.log(error);
+  }
+  res
+    .status(200)
+    .send(`Hello ${email}`)
+    .end();
 });
 
-app.listen(PORT, HOST, () => console.log(`Running on http://${HOST}:${PORT}`));
+
+// Start the server
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+  console.log('Press Ctrl+C to quit.');
+});

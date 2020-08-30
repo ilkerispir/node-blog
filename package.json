@@ -1,29 +1,27 @@
 {
-  "name": "ii-blog",
-  "version": "1.0.0",
-  "description": "Node.js blog page",
-  "main": "index.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "iap-authentication",
+  "description": "Minimal app to use authentication information from IAP.",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Google LLC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ilkerispir/node-blog.git"
+    "url": "https://github.com/GoogleCloudPlatform/getting-started-nodejs.git"
   },
-  "keywords": [
-    "node",
-    "blog",
-    "page"
-  ],
-  "author": "Ilker Ispir",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ilkerispir/node-blog/issues"
+  "engines": {
+    "node": ">=10.0.0"
   },
-  "homepage": "https://github.com/ilkerispir/node-blog#readme",
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha --exit test/*.test.js"
+  },
   "dependencies": {
-    "ejs": "^3.1.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "gcp-metadata": "^4.1.0",
+    "google-auth-library": "^6.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^8.0.0",
+    "supertest": "^4.0.2"
   }
 }
